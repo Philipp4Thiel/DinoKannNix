@@ -11,6 +11,7 @@
     fd
     zoxide
     tmux
+    kitty
   ];
   
   # shell

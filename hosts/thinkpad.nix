@@ -3,7 +3,7 @@
 {
   imports = [ 
   	./common.nix
-	../modules/gnome.nix
+	../modules/hyprland.nix
 	./hardware_configurations/thinkpad.nix
   ];
 
