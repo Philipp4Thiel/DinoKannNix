@@ -4,27 +4,7 @@
   home.username = "philipp";
   home.homeDirectory = "/home/philipp";
 
-  home.packages = with pkgs; [
-    neovim
-    ripgrep
-    bat
-    fd
-    zoxide
-    tmux
-  ];
-  
-  # shell
-  programs.starship.enable = true;
-  programs.zsh = {
-    enable = true;
-    initExtra = ''
-      eval "$(starship init zsh)"
-    '';
-    shellAliases = {
-      ll = "ls -l";
-      la = "ls -la";
-    };
-  };
+  home.packages = with pkgs; [ neovim ripgrep bat fd zoxide tmux kitty vscode ];
 
   programs.firefox.enable = true;
 

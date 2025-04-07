@@ -1,10 +1,10 @@
 { config, pkgs, ... }:
 
 {
-  imports = [ 
-  	./common.nix
-	../modules/gnome.nix
-	./hardware_configurations/thinkpad.nix
+  imports = [
+    ./common.nix
+    ./modules/hyprland.nix
+    ./hardware_configurations/thinkpad.nix
   ];
 
   networking.hostName = "thinkpad";

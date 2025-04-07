@@ -10,11 +10,10 @@
 
   users.users.philipp = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "networkmanager" "video" ];
-    shell = pkgs.zsh;
+    extraGroups = [ "wheel" "networkmanager" "video" "audio" ];
+    shell = pkgs.fish;
   };
-
-  programs.zsh.enable = true;
+  programs.fish.enable = true;
 
   nixpkgs.config.allowUnfree = true;
 
@@ -49,7 +48,7 @@
   services.printing.enable = true;
 
   # Enable sound with pipewire.
-  hardware.pulseaudio.enable = false;
+  services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
