@@ -44,6 +44,8 @@
     LC_TIME = "de_CH.UTF-8";
   };
 
+  services.dbus.enable = true;
+
   # Enable CUPS to print documents.
   services.printing.enable = true;
 

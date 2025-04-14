@@ -9,6 +9,19 @@
     networkmanagerapplet
   ];
 
+  home.pointerCursor = {
+    name = "Dracula-cursors";
+    package = pkgs.dracula-theme;
+    size = 24;
+
+    gtk.enable = true;
+
+    x11 = {
+      enable = true;
+      defaultCursor = "Dracula-cursors";
+    };
+  };
+
   # Hyprland window manager configuration.
   wayland.windowManager.hyprland = {
     enable = true;
@@ -52,7 +65,7 @@
       # AUTOSTART APPS    #
       #####################
       # These commands will be executed once when Hyprland starts.
-      exec = [
+      exec-once = [
         "waybar"
         "hyprpaper"
         "hypridle"
@@ -62,6 +75,7 @@
         "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
         "blueman-applet"
         "wl-paste -t text -w xclip -selection clipboard"
+        "hyprctl setcursor Dracula-cursors 24"
       ];
 
       #####################

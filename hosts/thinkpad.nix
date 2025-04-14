@@ -10,5 +10,8 @@
   networking.hostName = "thinkpad";
 
   # Laptop specific stuff
+  environment.systemPackages = with pkgs; [ bluez blueman ];
+
+  hardware.bluetooth.enable = true;
 }
 
