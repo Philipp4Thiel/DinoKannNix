@@ -1,6 +1,7 @@
 { config, pkgs, ... }: {
   programs.helix = {
     enable = true;
+    defaultEditor = true;
     settings = {
       theme = "material_deep_ocean";
       editor.cursor-shape = {
