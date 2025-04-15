@@ -18,6 +18,7 @@
     nerd-fonts.fira-mono
     nerd-fonts.caskaydia-mono
     nerd-fonts.caskaydia-cove
+    obsidian
   ];
 
   programs.kitty = {
