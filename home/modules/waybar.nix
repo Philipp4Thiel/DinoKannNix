@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 
 {
-  home.packages = with pkgs; [ pamixer ];
+  home.packages = with pkgs; [ pamixer pavucontrol ];
   # Create the Waybar configuration file at ~/.config/waybar/config
   home.file.".config/waybar/config" = {
     text = ''
