@@ -5,6 +5,8 @@
   home.homeDirectory = "/home/philipp";
 
   home.packages = with pkgs; [
+    libgcc
+    gcc
     neovim
     zathura
     ripgrep
