@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 
 {
-  home.packages = with pkgs; [ pamixer pavucontrol ];
+  home.packages = with pkgs; [ pamixer pavucontrol networkmanagerapplet ];
   # Create the Waybar configuration file at ~/.config/waybar/config
   home.file.".config/waybar/config" = {
     text = ''
@@ -14,12 +14,14 @@
           "gtk-layer-shell": true,
           "height": 0,
           "modules-left": [
-              "hyprland/workspaces"
+              "hyprland/workspaces",
+              "hyprland/window"
           ],
-          "modules-center": ["hyprland/window"],
+          "modules-center": [
+          ],
           "modules-right": [
               "tray",
-              //"network",
+              "network",
               "wireplumber",
               "backlight",
               "battery",
@@ -100,7 +102,9 @@
               "format-icons": ["󰤯 ", "󰤟 ", "󰤢 ", "󰤥 ", "󰤨 "],
               "format-wifi": "{icon}  {essid}",
               "format-ethernet": "",
-              "format-disconnected": "󰤮  disconnected"
+              "format-disconnected": "󰤮  disconnected",
+              "on-click": "kitty --class nmtui-popup -o initial_window_width=600 -o initial_window_height=400 -o confirm_os_window_close=0 nmtui",
+              "on-click-right": "nm-connection-editor"
           },
           "custom/notification": {
               "tooltip": false,

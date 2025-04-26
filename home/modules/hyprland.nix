@@ -6,7 +6,6 @@
     waybar
     swaynotificationcenter
     blueman
-    networkmanagerapplet
   ];
 
   home.pointerCursor = {
@@ -70,7 +69,6 @@
         "hyprpaper"
         "hypridle"
         "swaync"
-        "nm-applet --indicator"
         "systemctl --user start hyprpolkitagent"
         "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
         "blueman-applet"
@@ -289,6 +287,16 @@
         ''SHIFT, Print, exec, grim -g "$(slurp)" -t png''
         ",XF86MonBrightnessUp, exec, brightnessctl set 5%+"
         ",XF86MonBrightnessDown, exec, brightnessctl set 5%-"
+      ];
+
+      windowrule = [
+        "float, class:^(nmtui-popup)$"
+        "center, class:^(nmtui-popup)$"
+        "size 600 400, class:^(nmtui-popup)$"
+
+        "float, title:^(Network Connections)$"
+        "center, title:^(Network Connections)$"
+        "size 800 600, title:^(Network Connections)$"
       ];
     };
   };
