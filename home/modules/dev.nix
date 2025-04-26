@@ -5,8 +5,8 @@
     libgcc
     gcc
     gnumake
-    python312
-    python312Packages.numpy
+    (python312.withPackages (ppkgs: [ ppkgs.numpy ]))
   ];
+
 }
 
