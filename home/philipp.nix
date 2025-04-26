@@ -4,6 +4,7 @@
   imports = [
     ./common.nix
     ./modules/fish.nix
+    ./modules/nvim.nix
     ./modules/dev.nix
     ./modules/helix.nix
     ./modules/hyprland.nix

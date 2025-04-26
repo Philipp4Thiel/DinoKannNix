@@ -5,7 +5,6 @@
   home.homeDirectory = "/home/philipp";
 
   home.packages = with pkgs; [
-    neovim
     zathura
     ripgrep
     bat
