@@ -19,4 +19,20 @@
       formatter.command = "${pkgs.nixfmt-classic}/bin/nixfmt";
     }];
   };
+  home.packages = with pkgs; [
+    # lsp/formatting
+    # python 
+    ruff
+    python312Packages.python-lsp-server
+    python312Packages.jedi
+    # c/cpp
+    clang-tools
+    lldb_19
+    # rust
+    rust-analyzer
+    # scala
+    metals
+    # nix
+    nil
+  ];
 }
