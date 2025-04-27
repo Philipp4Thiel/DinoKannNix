@@ -1,100 +1,102 @@
 { config, pkgs, ... }:
 
-let
-  # Define the Lua config inline
-  nvimConfig = ''
-    -- Plugin manager (lazy.nvim) initialization
-    require("lazy").setup({
-      "neovim/nvim-lspconfig",
-      "williamboman/mason.nvim",
-      "williamboman/mason-lspconfig.nvim",
-      "hrsh7th/nvim-cmp",
-      "hrsh7th/cmp-nvim-lsp",
-      "hrsh7th/cmp-buffer",
-      "hrsh7th/cmp-path",
-      "hrsh7th/cmp-cmdline",
-      "L3MON4D3/LuaSnip",
-      "saadparwaiz1/cmp_luasnip",
-      "nvim-treesitter/nvim-treesitter",
-      "nvim-lualine/lualine.nvim",
-      "nvim-telescope/telescope.nvim",
-      "github/copilot.vim",
-      "folke/which-key.nvim"
-    })
-
-    -- Mason setup
-    require("mason").setup()
-    require("mason-lspconfig").setup({
-      ensure_installed = { "pyright", "rust_analyzer", "clangd", "hls", "ocamllsp", "metals", "nil_ls" }
-    })
-
-    -- Setup LSP servers
-    local lspconfig = require('lspconfig')
-
-    local servers = { "pyright", "clangd", "rust_analyzer", "hls", "ocamllsp", "metals", "nil_ls" }
-    for _, lsp in ipairs(servers) do
-      lspconfig[lsp].setup {
-        capabilities = require('cmp_nvim_lsp').default_capabilities(),
-        on_attach = function(_, bufnr)
-          local opts = { noremap=true, silent=true, buffer=bufnr }
-          vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
-          vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
-          vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
-          vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
-          vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
-          vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, opts)
-        end
-      }
-    end
-
-    -- nvim-cmp setup
-    local cmp = require'cmp'
-    cmp.setup({
-      snippet = {
-        expand = function(args)
-          require('luasnip').lsp_expand(args.body)
-        end,
-      },
-      mapping = cmp.mapping.preset.insert({
-        ['<C-Space>'] = cmp.mapping.complete(),
-        ['<CR>'] = cmp.mapping.confirm({ select = true }),
-      }),
-      sources = cmp.config.sources({
-        { name = 'nvim_lsp' },
-        { name = 'luasnip' },
-        { name = 'buffer' },
-        { name = 'path' }
-      })
-    })
-
-    -- Treesitter setup
-    require'nvim-treesitter.configs'.setup {
-      ensure_installed = { "python", "c", "rust", "nix", "haskell", "ocaml", "scala" },
-      highlight = {
-        enable = true
-      }
-    }
-
-    -- Lualine setup
-    require('lualine').setup()
-
-    -- Telescope
-    require('telescope').setup{}
-
-    -- Optional: GitHub Copilot toggle
-    vim.api.nvim_set_keymap("n", "<leader>cp", ":Copilot toggle<CR>", { noremap = true, silent = true })
-  '';
-
-in {
+{
   programs.neovim = {
     enable = true;
     vimAlias = true;
+    defaultEditor = false;
     withNodeJs = true; # for copilot
     withPython3 = true; # for python plugins
-  };
+    extraConfig = ''
+      map <Space> <Leader>
+      :set number
+      :set relativenumber
+      :set expandtab
+      :set tabstop=4
+      :set shiftwidth=4
+      :set scrolloff=10
+    '';
+    plugins = with pkgs.vimPlugins; [
+      {
+        plugin = lualine-nvim;
+        type = "lua";
+        config = ''
+          require('lualine').setup(
+            {
+              options = { theme = 'onedark' },
+              sections = {
+                lualine_a = { 'mode' },
+                lualine_b = { 'branch', 'diff' },
+                lualine_c = { 'filename' },
+                lualine_x = { 'encoding', 'filetype' },
+                lualine_y = { 'progress' },
+                lualine_z = { 'location' }
+              }
+            }
+          )
+        '';
+      } # Status Line
+      {
+        plugin = nvim-treesitter.withAllGrammars; # Syntax Highlighting
+        type = "lua";
+        config = ''
+          require('nvim-treesitter.configs').setup {
+            highlight = { enable = true}
+          }
+        '';
+      }
+      {
+        plugin = null-ls-nvim;
+        type = "lua";
+        config = ''
+          local null_ls = require("null-ls")
+          local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
+          null_ls.setup({
+              sources = {
+                  null_ls.builtins.formatting.alejandra.with({
+                      command = "${pkgs.alejandra}/bin/alejandra"
+                  }), null_ls.builtins.formatting.lua_format.with({
+                      command = "${pkgs.luaformatter}/bin/lua-format"
+                  })
+              },
 
-  home.file."${config.home}/.config/nvim/init.lua" = {
-    text = nvimConfig; # This places the Lua configuration
+              on_attach = function(client, bufnr)
+                  if client.supports_method("textDocument/formatting") then
+                      vim.api.nvim_clear_autocmds({group = augroup, buffer = bufnr})
+                      vim.api.nvim_create_autocmd("BufWritePre", {
+                          group = augroup,
+                          buffer = bufnr,
+                          callback = function()
+                              vim.lsp.buf.format({
+                                  bufnr = bufnr,
+                                  filter = function(client)
+                                      return client.name == "null-ls"
+                                  end
+                              })
+                          end
+                      })
+                  end
+              end
+          })
+        '';
+      }
+      {
+        plugin = nvim-lspconfig;
+        type = "lua";
+        config = ''
+          require('lspconfig').nil_ls.setup({
+            cmd = { "${pkgs.nil}/bin/nil" }
+          })
+        '';
+      }
+      {
+        plugin = bufferline-nvim;
+        type = "lua";
+        config = ''
+          require("bufferline").setup{}
+        '';
+      }
+    ];
   };
 
   # Optional: Install LSP servers system-wide
