@@ -276,6 +276,12 @@
 
       bindr = "$mod, SUPER_L, exec, pkill wofi || $menu";
 
+      bindl = [
+        ''
+          ,switch:on:Lid Switch, exec, hyprctl keyword monitor "eDP-1, disable"''
+        '',switch:off:Lid Switch, exec, bash -c "sleep 0.5 && hyprctl reload"''
+      ];
+
       bindle = [
         ",XF86AudioRaiseVolume, exec, pamixer -i 5"
         ",XF86AudioLowerVolume, exec, pamixer -d 5"
