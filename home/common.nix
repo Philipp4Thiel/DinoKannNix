@@ -13,16 +13,22 @@
     tmux
     vscode
     goofcord
+    obsidian
+    gparted
+
     nerd-fonts.fira-code
     nerd-fonts.fira-mono
     nerd-fonts.caskaydia-mono
     nerd-fonts.caskaydia-cove
-    obsidian
   ];
 
   programs.kitty = {
     enable = true;
     font.name = "CaskaydiaCove Nerd Font Mono";
+    settings = {
+      background_opacity = 0.7;
+      confirm_os_window_close = 0;
+    };
   };
 
   programs.firefox.enable = true;

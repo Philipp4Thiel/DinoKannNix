@@ -6,6 +6,10 @@
     waybar
     swaynotificationcenter
     blueman
+    hyprpolkitagent
+    grim
+    slurp
+    wl-clipboard
   ];
 
   home.pointerCursor = {
@@ -18,6 +22,14 @@
     x11 = {
       enable = true;
       defaultCursor = "Dracula-cursors";
+    };
+  };
+
+  services.hyprpaper = {
+    enable = true;
+    settings = {
+      preload = [ "~/Pictures/backgrounds/wolf_moon_red.jpg" ];
+      wallpaper = [ ", ~/Pictures/backgrounds/wolf_moon_red.jpg" ];
     };
   };
 
@@ -191,8 +203,8 @@
         "$mod, SPACE, fullscreen, 2"
 
         # --- Session ---
-        "$mod, L, exec, loginctl lock-session"
-        "CTRL ALT, delete, exec, hyprlock -f & sleep 1 && systemctl suspend &"
+        "$mod, L, exec, hyprlock --immediate & sleep 1 && systemctl suspend &"
+        #"CTRL ALT, delete, exec, hyprlock -f & sleep 1 && systemctl suspend &"
 
         # --- Focus & Swap ---
         "$mod, h, movefocus, l"
@@ -261,6 +273,8 @@
         "$mod SHIFT, S, movetoworkspace, special:Spotify"
         "$mod, D, togglespecialworkspace, Discord"
         "$mod SHIFT, D, movetoworkspace, special:Discord"
+        "$mod, B, togglespecialworkspace, Browser"
+        "$mod SHIFT, B, movetoworkspace, special:Browser"
 
         # --- Cycling Workspaces ---
         "$mod, TAB, workspace, e+1"
@@ -289,8 +303,8 @@
         ",XF86AudioPlay, exec, playerctl play-pause"
         ",XF86AudioNext, exec, playerctl next"
         ",XF86AudioPrev, exec, playerctl previous"
-        ",Print, exec, grim -t png"
-        ''SHIFT, Print, exec, grim -g "$(slurp)" -t png''
+        ",Print, exec, grim - | wl-copy"
+        ''SHIFT, Print, exec, grim -g "$(slurp)" - | wl-copy''
         ",XF86MonBrightnessUp, exec, brightnessctl set 5%+"
         ",XF86MonBrightnessDown, exec, brightnessctl set 5%-"
       ];

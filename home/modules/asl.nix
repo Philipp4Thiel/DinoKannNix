@@ -5,7 +5,8 @@
     libgcc
     gcc
     gnumake
-    (python312.withPackages (ppkgs: [ ppkgs.numpy ppkgs.numba ppkgs.scipy ]))
+    (python312.withPackages
+      (ppkgs: [ ppkgs.numpy ppkgs.numba ppkgs.scipy ppkgs.pytest ]))
   ];
 }
 

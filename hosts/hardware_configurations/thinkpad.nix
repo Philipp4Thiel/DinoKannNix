@@ -11,10 +11,16 @@
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
+  boot.supportedFilesystems = [ "ntfs" ];
 
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/3818659b-6419-48ae-aca7-920946c60e61";
     fsType = "ext4";
+  };
+
+  fileSystems."/mnt/shared" = {
+    device = "/dev/disk/by-uuid/78DB79FF4F3379B0";
+    fsType = "ntfs";
   };
 
   fileSystems."/boot" = {
