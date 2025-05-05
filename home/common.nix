@@ -22,6 +22,11 @@
     nerd-fonts.caskaydia-cove
   ];
 
+  programs.nix-index = {
+    enable = true;
+    enableFishIntegration = true;
+  };
+
   programs.kitty = {
     enable = true;
     font.name = "CaskaydiaCove Nerd Font Mono";
