@@ -1,16 +1,17 @@
-{ config, pkgs, ... }:
+{ pkgs, nvf, ... }:
 
 {
   imports = [
+    nvf.homeManagerModules.default
     ./common.nix
     ./modules/fish.nix
-    #./modules/nvim.nix
     ./modules/asl.nix
-    ./modules/helix.nix
+    ./modules/editor.nix
     ./modules/hyprland.nix
     ./modules/waybar.nix
-    ./modules/work.nix
+    ./modules/shcs.nix
+    ./modules/dev.nix
   ];
 
-  home.packages = with pkgs; [ tlp brightnessctl ];
+  home.packages = with pkgs; [ tlp brightnessctl zoom ];
 }

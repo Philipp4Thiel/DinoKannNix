@@ -7,9 +7,10 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nvf.url = "github:notashelf/nvf";
   };
 
-  outputs = { self, nixpkgs, home-manager, ... }@inputs:
+  outputs = { self, nixpkgs, home-manager, nvf, ... }@inputs:
     let
       mkHost = name:
         nixpkgs.lib.nixosSystem {
@@ -20,7 +21,10 @@
               imports = [ home-manager.nixosModules.home-manager ];
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
-              home-manager.users.philipp = import ./home/philipp.nix;
+              home-manager.users.philipp = import ./home/philipp.nix {
+                pkgs = nixpkgs.legacyPackages.x86_64-linux;
+                inherit nvf;
+              };
             }
           ];
         };

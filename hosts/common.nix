@@ -14,6 +14,7 @@
     shell = pkgs.fish;
   };
   programs.fish.enable = true;
+  xdg.terminal-exec.settings.default = [ "kitty" ];
 
   nixpkgs.config.allowUnfree = true;
 

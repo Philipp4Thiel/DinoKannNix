@@ -1,4 +1,8 @@
-{ config, pkgs, ... }: {
+{
+  config,
+  pkgs,
+  ...
+}: {
   # Install the necessary packages.
   home.packages = with pkgs; [
     wofi
@@ -10,6 +14,7 @@
     grim
     slurp
     wl-clipboard
+    gnome-keyring
   ];
 
   home.pointerCursor = {
@@ -28,8 +33,8 @@
   services.hyprpaper = {
     enable = true;
     settings = {
-      preload = [ "~/Pictures/backgrounds/wolf_moon_red.jpg" ];
-      wallpaper = [ ", ~/Pictures/backgrounds/wolf_moon_red.jpg" ];
+      preload = ["~/Pictures/backgrounds/wolf_moon_red.jpg"];
+      wallpaper = [", ~/Pictures/backgrounds/wolf_moon_red.jpg"];
     };
   };
 
@@ -86,6 +91,7 @@
         "blueman-applet"
         "wl-paste -t text -w xclip -selection clipboard"
         "hyprctl setcursor Dracula-cursors 24"
+        "eval $(/usr/bin/gnome-keyring-daemon --start); export SSH_AUTH_SOCK"
       ];
 
       #####################
@@ -155,7 +161,7 @@
       #####################
       # MASTER LAYOUT     #
       #####################
-      master = { new_status = "master"; };
+      master = {new_status = "master";};
 
       #####################
       # MISCELLANEOUS     #
@@ -268,15 +274,16 @@
         "$mod SHIFT, 0, movetoworkspace, 10"
         "$mod SHIFT, n, movetoworkspace, empty"
 
-        # --- Special Workspaces (Spotify & Discord) ---
+        # --- Special Workspaces (Spotify & Dev) ---
         "$mod, S, togglespecialworkspace, Spotify"
         "$mod SHIFT, S, movetoworkspace, special:Spotify"
-        "$mod, D, togglespecialworkspace, Discord"
-        "$mod SHIFT, D, movetoworkspace, special:Discord"
+        "$mod, D, togglespecialworkspace, Dev"
+        "$mod SHIFT, D, movetoworkspace, special:Dev"
         "$mod, B, togglespecialworkspace, Browser"
         "$mod SHIFT, B, movetoworkspace, special:Browser"
 
         # --- Cycling Workspaces ---
+        "ALT, TAB, cyclenext"
         "$mod, TAB, workspace, e+1"
         "$mod, mouse_down, workspace, e+1"
         "$mod, mouse_up, workspace, e-1"

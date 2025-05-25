@@ -44,8 +44,9 @@
   programs.fish = {
     enable = true;
     interactiveShellInit = ''
-      alias old_ls="ls"
+      alias old_ls="$(which ls)"
       alias ls="lsd"
+      alias tree="lsd --tree"
       set fish_greeting
       starship init fish | source
       zoxide init fish --cmd cd | source

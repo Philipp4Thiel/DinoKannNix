@@ -12,6 +12,7 @@
     zoxide
     tmux
     vscode
+    spotify
     goofcord
     obsidian
     gparted
