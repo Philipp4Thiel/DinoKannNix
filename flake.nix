@@ -21,10 +21,8 @@
               imports = [ home-manager.nixosModules.home-manager ];
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
-              home-manager.users.philipp = import ./home/philipp.nix {
-                pkgs = nixpkgs.legacyPackages.x86_64-linux;
-                inherit nvf;
-              };
+              home-manager.extraSpecialArgs = { inherit inputs nvf; }; # Pass inputs as specialArgs
+              home-manager.users.philipp = import ./home/philipp.nix;
             }
           ];
         };

@@ -1,10 +1,137 @@
 { config, pkgs, ... }:
 
+let
+  # Check if Sway is enabled to determine which config to use
+  useSway = config.wayland.windowManager.sway.enable;
+in
 {
   home.packages = with pkgs; [ pamixer pavucontrol networkmanagerapplet ];
+  
   # Create the Waybar configuration file at ~/.config/waybar/config
   home.file.".config/waybar/config" = {
-    text = ''
+    text = if useSway then ''
+      {
+          "layer": "top",
+          "position": "top",
+          "mode": "dock",
+          "exclusive": true,
+          "passthrough": false,
+          "gtk-layer-shell": true,
+          "height": 0,
+          "modules-left": [
+              "sway/workspaces",
+              "sway/window"
+          ],
+          "modules-center": [
+          ],
+          "modules-right": [
+              "tray",
+              "network",
+              "wireplumber",
+              "backlight",
+              "battery",
+              "clock",
+              "custom/notification"
+          ],
+
+          "sway/window": {
+              "separate-outputs": true,
+              "format": "{title}"
+          },
+          "sway/workspaces": {
+              "disable-scroll": true,
+              "all-outputs": true,
+              "format": "{name}"
+          },
+          
+          "tray": {
+              "icon-size": 13,
+              "spacing": 10
+          },
+          "clock": {
+              "format": " {:%R    %d.%m.%Y}",
+              "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
+          },
+          "backlight": {
+              "device": "intel_backlight",
+              "format": "{icon} {percent}%",
+              "format-icons": ["\udb80\udcdb", "\udb80\udcdf", "\udb80\udce0"],
+              "on-scroll-up": "brightnessctl set 1%+",
+              "on-scroll-down": "brightnessctl set 1%-",
+              "min-length": 6
+          },
+          "battery": {
+              "states": {
+                  "good": 95,
+                  "warning": 30,
+                  "critical": 20
+              },
+              "format": "{icon} {capacity}%",
+              "format-charging": " {capacity}%",
+              "format-plugged": " {capacity}%",
+              "format-alt": "{time} {icon}",
+              "format-icons": [
+                "\udb80\udc7a",
+                "\udb80\udc7b",
+                "\udb80\udc7c",
+                "\udb80\udc7d",
+                "\udb80\udc7e",
+                "\udb80\udc7f",
+                "\udb80\udc80",
+                "\udb80\udc81",
+                "\udb80\udc82",
+                "\udb80\udc79"
+              ],
+          },
+          "wireplumber": {
+              "format": "{icon} {volume}%",
+              "tooltip": false,
+              "format-muted": " Muted",
+              "on-click": "pamixer -t",
+              "on-click-right": "pkill pavucontrol || pavucontrol",
+              "on-scroll-up": "pamixer -i 5",
+              "on-scroll-down": "pamixer -d 5",
+              "scroll-step": 5,
+              "format-icons": {
+                  "headphone": "",
+                  "hands-free": "",
+                  "headset": "",
+                  "phone": "",
+                  "portable": "",
+                  "car": "",
+                  "default": ["", "", ""]
+              }
+          },
+          "network": {
+              "format-icons": ["󰤯 ", "󰤟 ", "󰤢 ", "󰤥 ", "󰤨 "],
+              "format-wifi": "{icon}  {essid}",
+              "format-ethernet": "",
+              "format-disconnected": "󰤮  disconnected",
+              "on-click": "kitty --class nmtui-popup -o initial_window_width=600 -o initial_window_height=400 -o confirm_os_window_close=0 nmtui",
+              "on-click-right": "nm-connection-editor"
+          },
+          "custom/notification": {
+              "tooltip": false,
+              "format": "{icon}",
+              "format-icons": {
+                  "notification": "󱅫",
+                  "none": "",
+                  "dnd-notification": " ",
+                  "dnd-none": "󰂛",
+                  "inhibited-notification": " ",
+                  "inhibited-none": "",
+                  "dnd-inhibited-notification": " ",
+                  "dnd-inhibited-none": " "
+              },
+              "return-type": "json",
+              "exec-if": "which swaync-client",
+              "exec": "swaync-client -swb",
+              "on-click": "swaync-client -t -sw",
+              "on-click-right": "swaync-client -d -sw",
+              "escape": true
+          },
+      }
+    '' else ''
       {
           "layer": "top",
           "position": "top",
@@ -40,6 +167,7 @@
               "on-click": "activate",
               "show-special": true
           },
+          
           "tray": {
               "icon-size": 13,
               "spacing": 10

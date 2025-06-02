@@ -17,19 +17,6 @@
     gnome-keyring
   ];
 
-  home.pointerCursor = {
-    name = "Dracula-cursors";
-    package = pkgs.dracula-theme;
-    size = 24;
-
-    gtk.enable = true;
-
-    x11 = {
-      enable = true;
-      defaultCursor = "Dracula-cursors";
-    };
-  };
-
   services.hyprpaper = {
     enable = true;
     settings = {
@@ -57,8 +44,8 @@
       ##########################
       # (Some options might be more appropriate in your environment configuration.)
       env = [
-        "XCURSOR_SIZE,18"
-        "HYPRCURSOR_SIZE,18"
+        "XCURSOR_SIZE,${toString config.home.pointerCursor.size}"
+        "HYPRCURSOR_SIZE,${toString config.home.pointerCursor.size}"
         "GTK_THEME,Adwaita:dark"
         "QT_STYLE_OVERRIDE,Adwaita-Dark"
         "QT_AUTO_SCREEN_SCALE_FACTOR,1"
@@ -90,7 +77,7 @@
         "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
         "blueman-applet"
         "wl-paste -t text -w xclip -selection clipboard"
-        "hyprctl setcursor Dracula-cursors 24"
+        "hyprctl setcursor ${config.home.pointerCursor.name} ${toString config.home.pointerCursor.size}"
         "eval $(/usr/bin/gnome-keyring-daemon --start); export SSH_AUTH_SOCK"
       ];
 
@@ -212,35 +199,19 @@
         "$mod, L, exec, hyprlock --immediate & sleep 1 && systemctl suspend &"
         #"CTRL ALT, delete, exec, hyprlock -f & sleep 1 && systemctl suspend &"
 
-        # --- Focus & Swap ---
-        "$mod, h, movefocus, l"
-        "$mod, l, movefocus, r"
-        "$mod, k, movefocus, u"
-        "$mod, j, movefocus, d"
-        "$mod SHIFT, h, swapwindow, l"
-        "$mod SHIFT, l, swapwindow, r"
-        "$mod SHIFT, k, swapwindow, u"
-        "$mod SHIFT, j, swapwindow, d"
+        # --- Focus & Movement --- (arrow keys only)
         "$mod, left, movefocus, l"
         "$mod, right, movefocus, r"
         "$mod, up, movefocus, u"
         "$mod, down, movefocus, d"
 
-        # --- Moving Windows Between Monitors ---
-        "$mod SHIFT, h, movewindow, mon:l"
-        "$mod SHIFT, l, movewindow, mon:r"
-        "$mod SHIFT, k, movewindow, mon:u"
-        "$mod SHIFT, j, movewindow, mon:d"
+        # --- Moving Windows --- (arrow keys only)
         "$mod SHIFT, left, movewindow, mon:l"
         "$mod SHIFT, right, movewindow, mon:r"
         "$mod SHIFT, up, movewindow, mon:u"
         "$mod SHIFT, down, movewindow, mon:d"
 
-        # --- Moving Workspace Between Monitors ---
-        "$mod CTRL, h, movecurrentworkspacetomonitor, l"
-        "$mod CTRL, l, movecurrentworkspacetomonitor, r"
-        "$mod CTRL, k, movecurrentworkspacetomonitor, u"
-        "$mod CTRL, j, movecurrentworkspacetomonitor, d"
+        # --- Moving Workspace Between Monitors --- (arrow keys only)
         "$mod CTRL, left, movecurrentworkspacetomonitor, l"
         "$mod CTRL, right, movecurrentworkspacetomonitor, r"
         "$mod CTRL, up, movecurrentworkspacetomonitor, u"

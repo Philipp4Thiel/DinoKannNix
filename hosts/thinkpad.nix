@@ -3,7 +3,10 @@
 {
   imports = [
     ./common.nix
+    ./modules/display-manager.nix
     ./modules/hyprland.nix
+    ./modules/awesome.nix
+    ./modules/gnome.nix
     ./hardware_configurations/thinkpad.nix
   ];
 

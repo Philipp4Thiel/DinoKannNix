@@ -1,12 +1,6 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 {
-  services.xserver.enable = false;
-  services.xserver.displayManager.gdm = {
-    enable = true;
-    wayland = true;
-  };
-
   programs.hyprland = {
     enable = true;
     xwayland.enable = true;
@@ -25,9 +19,5 @@
     hyprpicker
     gnome-keyring
   ];
-
-  services.gnome.gnome-keyring.enable = true;
-
-  security.pam.services.hyprland.enableGnomeKeyring = true;
 }
 
