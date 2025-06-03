@@ -38,7 +38,7 @@ in {
     gcc
     gnumake
     (python312.withPackages
-      (ppkgs: [ ppkgs.numpy ppkgs.numba ppkgs.scipy ppkgs.pytest ]))
+      (ppkgs: [ ppkgs.numpy ppkgs.numba ppkgs.scipy ppkgs.pytest ppkgs.matplotlib ppkgs.jupyter ppkgs.notebook ]))
     papi
   ];
 }
