@@ -10,11 +10,17 @@
 
   users.users.philipp = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "networkmanager" "video" "audio" ];
+    extraGroups = [ "wheel" "networkmanager" "video" "audio" "docker" ];
     shell = pkgs.fish;
   };
   programs.fish.enable = true;
   xdg.terminal-exec.settings.default = [ "kitty" ];
+
+  # Docker configuration
+  virtualisation.docker = {
+    enable = true;
+    enableOnBoot = true;
+  };
 
   nixpkgs.config.allowUnfree = true;
 
