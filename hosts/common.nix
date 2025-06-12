@@ -24,7 +24,17 @@
 
   nixpkgs.config.allowUnfree = true;
 
-  environment.systemPackages = with pkgs; [ git curl vim btop htop wget unzip ];
+  environment.systemPackages = with pkgs; [ 
+    git 
+    curl 
+    vim 
+    btop 
+    htop 
+    wget 
+    unzip
+    # Add perf tool
+    linuxPackages.perf
+  ];
 
   # locals
   time.timeZone = "Europe/Zurich";
