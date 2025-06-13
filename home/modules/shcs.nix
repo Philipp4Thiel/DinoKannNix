@@ -5,8 +5,8 @@
   home.packages = with pkgs; [ 
     teams-for-linux 
     
-    # If your flake.nix has the overlay properly set up:
-    openconnect-sso
+    # Official UZH-recommended VPN client
+    pulsesecure
   ];
 }
 
