@@ -2,8 +2,16 @@
 
 {
   # Bootloader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader = {
+    grub = {
+      device = "nodev";
+      enable = true;
+      efiSupport = true;
+      useOSProber = true;
+    };
+    # systemd-boot.enable = true;
+    efi.canTouchEfiVariables = true;
+  }
 
   # Enable networking
   networking.networkmanager.enable = true;
