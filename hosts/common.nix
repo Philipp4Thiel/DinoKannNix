@@ -11,7 +11,7 @@
     };
     # systemd-boot.enable = true;
     efi.canTouchEfiVariables = true;
-  }
+  };
 
   # Enable networking
   networking.networkmanager.enable = true;
