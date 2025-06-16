@@ -2,16 +2,8 @@
 
 {
   # Bootloader.
-  boot.loader = {
-    grub = {
-      device = "nodev";
-      enable = true;
-      efiSupport = true;
-      useOSProber = true;
-    };
-    # systemd-boot.enable = true;
-    efi.canTouchEfiVariables = true;
-  };
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
 
   # Enable networking
   networking.networkmanager.enable = true;
@@ -94,4 +86,3 @@
 
   system.stateVersion = "24.11";
 }
-

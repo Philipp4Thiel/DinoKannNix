@@ -45,6 +45,13 @@
     enable = true;
     userName = "Bilopp";
     userEmail = "philipp@thiel.team";
+
+    # Add global ignore patterns
+    ignores = [
+      ".envrc"
+      "shell.nix"
+      ".direnv"
+    ];
   };
 
   home.stateVersion = "24.11";
