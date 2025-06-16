@@ -5,8 +5,12 @@
   home.packages = with pkgs; [ 
     teams-for-linux 
     
-    # Official UZH-recommended VPN client
-    pulsesecure
+    poetry
+    keepassxc
+    python312
+    # NetworkManager plugin for Pulse VPN
+    networkmanager-openconnect
+    openconnect
   ];
 }
 
