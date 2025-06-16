@@ -296,6 +296,16 @@
         "center, title:^(Network Connections)$"
         "size 800 600, title:^(Network Connections)$"
       ];
+
+      windowrulev2 = [
+        # Fix tooltips (always have a title of `win.<id>`)
+        "noinitialfocus, class:^(.*jetbrains.*)$, title:^(win.*)$"
+        "nofocus, class:^(.*jetbrains.*)$, title:^(win.*)$"
+
+        # Fix tab dragging (always have a single space character as their title)
+        "noinitialfocus, class:^(.*jetbrains.*)$, title:^\\s$"
+        "nofocus, class:^(.*jetbrains.*)$, title:^\\s$"
+      ];
     };
   };
 }
