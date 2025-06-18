@@ -16,6 +16,7 @@
     ./modules/waybar.nix
     ./modules/shcs.nix
     ./modules/dev.nix
+    ./modules/utils.nix
   ];
 
   home.packages = with pkgs; [tlp brightnessctl zoom];
